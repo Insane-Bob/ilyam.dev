@@ -50,7 +50,7 @@ export default function CustomCursor() {
     <>
       {/* Glow blob */}
       <motion.div
-        className="pointer-events-none fixed z-[9998] rounded-full mix-blend-screen"
+        className="pointer-events-none fixed z-[9998] rounded-full"
         style={{
           x: blobX,
           y: blobY,
@@ -58,8 +58,8 @@ export default function CustomCursor() {
           translateY: "-50%",
           width: hovering ? 280 : 200,
           height: hovering ? 280 : 200,
-          background:
-            "radial-gradient(circle, rgba(184,255,87,0.12) 0%, transparent 70%)",
+          background: "var(--cursor-glow)",
+          opacity: hovering ? 1 : 0.9,
           transition: "width 0.4s ease, height 0.4s ease",
         }}
       />
@@ -75,7 +75,7 @@ export default function CustomCursor() {
           width: hovering ? 40 : 28,
           height: hovering ? 40 : 28,
           borderColor: "var(--accent)",
-          opacity: hovering ? 1 : 0.5,
+          opacity: hovering ? 1 : "var(--cursor-ring-opacity)",
           transition: "width 0.25s ease, height 0.25s ease, opacity 0.2s ease",
         }}
       />

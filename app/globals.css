@@ -8,10 +8,27 @@
   --fg-subtle: #444444;
   --border: #1a1a1a;
   --border-mid: #2a2a2a;
-  --accent: #b8ff57;
-  --accent2: #ff3cac;
+  --accent: #8b7dff;
+  --accent2: #ff5aa5;
   --card-bg: #111111;
   --navbar-bg: rgba(10, 10, 10, 0.85);
+  --cursor-glow: radial-gradient(
+    circle,
+    rgba(139, 125, 255, 0.18) 0%,
+    transparent 70%
+  );
+  --cursor-ring-opacity: 0.55;
+  --title-reflect: linear-gradient(
+    110deg,
+    transparent 22%,
+    rgba(139, 125, 255, 0.28) 42%,
+    rgba(255, 255, 255, 0.92) 50%,
+    rgba(139, 125, 255, 0.34) 58%,
+    transparent 78%
+  );
+  --title-reflect-opacity: 1;
+  --title-reflect-blend: screen;
+  --title-reflect-glow: 0 0 16px rgba(139, 125, 255, 0.34);
 }
 
 /* ── LIGHT MODE ────────────────────────────────────── */
@@ -22,10 +39,28 @@
   --fg-subtle: #999999;
   --border: #e0e0d8;
   --border-mid: #cccccc;
-  --accent: #5a9e00;
-  --accent2: #cc1f7a;
+  --accent: #4f46e5;
+  --accent2: #d91f81;
   --card-bg: #eeeeea;
   --navbar-bg: rgba(245, 245, 240, 0.85);
+  --cursor-glow: radial-gradient(
+    circle,
+    rgba(79, 70, 229, 0.24) 0%,
+    rgba(79, 70, 229, 0.08) 48%,
+    transparent 74%
+  );
+  --cursor-ring-opacity: 0.8;
+  --title-reflect: linear-gradient(
+    110deg,
+    transparent 24%,
+    rgba(79, 70, 229, 0.24) 44%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(79, 70, 229, 0.3) 56%,
+    transparent 76%
+  );
+  --title-reflect-opacity: 0.95;
+  --title-reflect-blend: normal;
+  --title-reflect-glow: 0 0 10px rgba(79, 70, 229, 0.2);
 }
 
 * {
@@ -118,6 +153,47 @@ body::before {
   top: 0;
   color: var(--accent2);
   animation: glitch 0.3s steps(1) infinite;
+}
+
+@keyframes title-reflect {
+  0% {
+    background-position: 140% 0;
+  }
+  100% {
+    background-position: -40% 0;
+  }
+}
+
+.reflect-glow {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+
+.reflect-glow::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-image: var(--title-reflect);
+  background-size: 220% 100%;
+  background-repeat: no-repeat;
+  background-position: 140% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  mix-blend-mode: var(--title-reflect-blend);
+  opacity: var(--title-reflect-opacity);
+  filter: drop-shadow(var(--title-reflect-glow));
+  animation: title-reflect 2.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reflect-glow::after {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 /* Selection color */

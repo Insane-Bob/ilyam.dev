@@ -2,25 +2,79 @@
 
 import { motion } from "framer-motion";
 
-const traits = [
-  { num: "01", title: "Fullstack Dev", desc: "De la conception à la mise en prod. Frontend, backend, infra — je couvre l'ensemble de la stack." },
-  { num: "02", title: "Chef de Projet", desc: "Pilotage technique, vision produit, coordination. Je fais le lien entre la tech et le métier." },
-  { num: "03", title: "Amélioration Continue", desc: "Fiabilité, lisibilité, performance. Du code qui dure, pas du code qui survit." },
-  { num: "04", title: "Centré Utilisateur", desc: "La tech au service de l'usage. UX, accessibilité, pragmatisme." },
+const traitCategories = [
+  {
+    label: "Engineering",
+    items: [
+      {
+        num: "01",
+        title: "Fullstack Engineering",
+        desc: "Conception, architecture et mise en production de produits complets. Du frontend à l’infra, avec une approche orientée performance, scalabilité et qualité.",
+      },
+      {
+        num: "03",
+        title: "Performance & Scalabilité",
+        desc: "Optimisation des systèmes critiques, réduction des coûts techniques et amélioration continue pour soutenir la croissance produit.",
+      },
+    ],
+  },
+  {
+    label: "Produit",
+    items: [
+      {
+        num: "02",
+        title: "Product & Tech Leadership",
+        desc: "Pilotage technique et vision produit. Priorisation, décisions d’architecture et coordination pour transformer des enjeux métier en solutions concrètes.",
+      },
+      {
+        num: "04",
+        title: "User-Centric Thinking",
+        desc: "Conception d’expériences utiles et mesurables. UX, data et feedback utilisateur au cœur des décisions produit.",
+      },
+    ],
+  },
 ];
 
-const techStack = [
-  "Laravel", "VueJS", "React", "Next.js", "Nest.js", "Node.js", "TypeScript", "Docker", "Git", "REST", "GraphQL", "PostgreSQL", "MySQL", "MongoDB", "SQLite", "Redis", "AWS", "Vercel", "Laravel Forge"
+const techStackCategories = [
+  {
+    label: "Backend",
+    items: ["Laravel", "Symfony", "Node.js", "NestJS"],
+  },
+  {
+    label: "Frontend",
+    items: ["Vue.js", "Nuxt.js", "React", "Next.js", "Inertia.js"],
+  },
+  {
+    label: "Langages",
+    items: ["TypeScript", "JavaScript (ES6+)", "PHP"],
+  },
+  {
+    label: "UI / UX",
+    items: ["Tailwind CSS", "Shadcn UI", "Bootstrap"],
+  },
+  {
+    label: "Data & APIs",
+    items: ["REST", "GraphQL", "PostgreSQL", "MySQL", "MongoDB", "Redis"],
+  },
+  {
+    label: "DevOps & Infra",
+    items: ["Docker", "AWS", "Vercel", "Laravel Forge"],
+  },
+  {
+    label: "Outils",
+    items: ["Git", "Stripe"],
+  },
 ];
-
 export default function MePage() {
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)] overflow-hidden">
-
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="relative px-8 md:px-16 pt-20 pb-16 border-b border-[var(--border)]">
         {/* Accent dot */}
-        <div className="absolute top-24 right-12 w-1.5 h-1.5 bg-[#b8ff57] rounded-full" />
+        <div
+          className="absolute top-24 right-12 w-1.5 h-1.5 rounded-full"
+          style={{ background: "var(--accent)" }}
+        />
 
         <motion.p
           initial={{ opacity: 0, y: -10 }}
@@ -37,7 +91,8 @@ export default function MePage() {
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[14vw] md:text-[11vw] font-black leading-none tracking-tighter uppercase text-[var(--fg)]"
+            className="reflect-glow text-[14vw] md:text-[11vw] font-black leading-none tracking-tighter uppercase text-[var(--fg)]"
+            data-text="Ilyam"
           >
             Ilyam
           </motion.h1>
@@ -61,18 +116,20 @@ export default function MePage() {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="flex flex-wrap gap-3"
         >
-          {["Développeur Fullstack", "Chef de Projet", "Open to Work"].map((tag, i) => (
-            <span
-              key={i}
-              className={`font-mono text-[10px] tracking-widest uppercase px-3 py-1.5 border ${
-                i === 2
-                  ? "border-[#b8ff57] text-[var(--accent)]"
-                  : "border-[var(--border-mid)] text-[var(--fg-muted)]"
-              }`}
-            >
-              {tag}
-            </span>
-          ))}
+          {["Développeur Fullstack", "Chef de Projet", "Open to Work"].map(
+            (tag, i) => (
+              <span
+                key={i}
+                className={`font-mono text-[10px] tracking-widest uppercase px-3 py-1.5 border ${
+                  i === 2
+                    ? "border-accent text-[var(--accent)]"
+                    : "border-[var(--border-mid)] text-[var(--fg-muted)]"
+                }`}
+              >
+                {tag}
+              </span>
+            ),
+          )}
         </motion.div>
       </section>
 
@@ -84,11 +141,14 @@ export default function MePage() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--fg-subtle)] mb-4">[ABOUT]</p>
+          <p className="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--fg-subtle)] mb-4">
+            [ABOUT]
+          </p>
           <p className="font-mono text-xs text-[var(--fg-muted)] leading-relaxed">
-            Disponible<br />
-            Ile-de-France - Normandie, FR<br />
-            2026
+            Disponible
+            <br />
+            Ile-de-France - Normandie, FRANCE
+            <br />
           </p>
         </motion.div>
 
@@ -100,18 +160,23 @@ export default function MePage() {
           className="flex flex-col gap-5"
         >
           <p className="text-xl md:text-2xl font-light leading-relaxed text-[#ccc]">
-            Développeur polyvalent avec une{" "}
-            <span className="text-[var(--accent)] font-semibold">forte sensibilité produit</span>
-            {" "}— j'interviens de la conception à la mise en production.
+            Développeur fullstack,{" "}
+            <span className="text-[var(--accent)] font-semibold">
+              orienté produit
+            </span>{" "}
+            — je conçois des expériences digitales utiles, durables et pensées
+            pour l’usage, de l’idée à la mise en production.
           </p>
+
           <p className="text-base leading-relaxed text-[#666] font-mono">
-            J'évolue sur des projets à enjeux mêlant vision produit, pilotage technique
-            et qualité d'exécution. Axé amélioration continue, je conçois des fonctionnalités
-            fiables, durables et centrées sur l'usage.
+            J’interviens sur des projets à enjeux, où se rencontrent vision
+            produit, exigence technique et qualité d’exécution.
           </p>
+
           <p className="text-base leading-relaxed text-[#666] font-mono">
-            Pragmatique et orienté valeur, je fais le lien entre{" "}
-            <span className="text-[var(--fg)]">tech, UX et besoins métier</span>.
+            Pragmatique et focalisé sur la valeur, je fais le lien entre{" "}
+            <span className="text-[var(--fg)]">tech, UX et besoins métier</span>{" "}
+            pour construire des solutions qui font vraiment sens.
           </p>
         </motion.div>
       </section>
@@ -127,26 +192,43 @@ export default function MePage() {
           [CE QUE JE FAIS]
         </motion.p>
 
-        <div className="flex flex-col divide-y divide-[#1a1a1a]">
-          {traits.map((t, i) => (
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+          {traitCategories.map((category, categoryIndex) => (
             <motion.div
-              key={t.num}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              key={category.label}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-              className="group flex items-start gap-8 md:gap-16 py-8"
+              transition={{
+                duration: 0.5,
+                delay: categoryIndex * 0.08,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="border border-[var(--border)] bg-[var(--card-bg)] p-6 md:p-8"
             >
-              <span className="font-mono text-[11px] text-[var(--accent)] tracking-widest pt-1 shrink-0">
-                {t.num}
-              </span>
-              <div className="flex-1">
-                <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tight text-[var(--fg)] mb-3 group-hover:text-[var(--accent)] transition-colors duration-300">
-                  {t.title}
-                </h3>
-                <p className="font-mono text-xs text-[var(--fg-muted)] max-w-md leading-relaxed">
-                  {t.desc}
-                </p>
+              <p className="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--accent)] mb-6">
+                [{category.label}]
+              </p>
+
+              <div className="flex flex-col divide-y divide-[var(--border)]">
+                {category.items.map((item) => (
+                  <div
+                    key={item.num}
+                    className="group flex items-start gap-5 py-5 first:pt-0 last:pb-0"
+                  >
+                    <span className="font-mono text-[11px] text-[var(--accent)] tracking-widest pt-1 shrink-0">
+                      {item.num}
+                    </span>
+                    <div className="flex-1">
+                      <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-[var(--fg)] mb-2 group-hover:text-[var(--accent)] transition-colors duration-300">
+                        {item.title}
+                      </h3>
+                      <p className="font-mono text-xs text-[var(--fg-muted)] leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </motion.div>
           ))}
@@ -164,18 +246,31 @@ export default function MePage() {
           [STACK TECHNIQUE]
         </motion.p>
 
-        <div className="flex flex-wrap gap-3">
-          {techStack.map((tech, i) => (
-            <motion.span
-              key={tech}
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {techStackCategories.map((category, i) => (
+            <motion.div
+              key={category.label}
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.05, duration: 0.4 }}
-              className="font-mono text-xs tracking-widest uppercase px-4 py-2 border border-[var(--border-mid)] text-[var(--fg-muted)] hover:border-[#b8ff57] hover:text-[var(--accent)] transition-colors cursor-default"
+              transition={{ delay: i * 0.06, duration: 0.4 }}
+              className="border border-[var(--border)] bg-[var(--card-bg)] p-5"
             >
-              {tech}
-            </motion.span>
+              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-[var(--accent)] mb-4">
+                [{category.label}]
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {category.items.map((tech) => (
+                  <span
+                    key={tech}
+                    className="font-mono text-[10px] tracking-widest uppercase px-3 py-1.5 border border-[var(--border-mid)] text-[var(--fg-muted)] hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors cursor-default"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
           ))}
         </div>
       </section>

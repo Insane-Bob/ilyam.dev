@@ -7,11 +7,7 @@ import { useRef, useState } from "react";
 import GithubIcon from "./components/icons/GithubIcon";
 import LinkedinIcon from "./components/icons/LinkedinIcon";
 
-const ROLES = [
-  "Développeur Fullstack",
-  "Chef de Projet",
-  "Chief Product Officer",
-] as const;
+const ROLES = ["Développeur Fullstack", "Chef de Projet"] as const;
 
 const socials = [
   {
@@ -173,7 +169,7 @@ export default function HomePage() {
               className="font-mono text-xs tracking-widest uppercase"
               style={{ color: "var(--accent)" }}
             >
-              Disponible — Open to work — 2026
+              Disponible — Open to work
             </span>
           </motion.div>
 
@@ -184,7 +180,8 @@ export default function HomePage() {
                 initial={{ y: "110%" }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-                className="font-black leading-none tracking-tighter uppercase"
+                className="reflect-glow font-black leading-none tracking-tighter uppercase"
+                data-text="Ilyam"
                 style={{
                   fontSize: "clamp(3.5rem, 15vw, 13rem)",
                   color: "var(--fg)",
@@ -227,8 +224,9 @@ export default function HomePage() {
                 className="font-mono text-sm leading-relaxed"
                 style={{ color: "var(--fg-muted)" }}
               >
-                Développeur passionné. Je construis des interfaces et des
-                systèmes qui ont du sens.
+                Développeur Fullstack passionné par la réflexion autour du
+                produit, j’essaie de construire des expériences digitales à la
+                fois utiles, modulables et orientées UX.
               </p>
               <div className="flex flex-wrap gap-2">
                 {ROLES.map((role) => (
@@ -295,7 +293,7 @@ export default function HomePage() {
       >
         Scroll
       </motion.div>
-                
+
       {/* ── INDEX ─────────────────────────────────────────────── */}
       <section className="px-6 md:px-16 pb-8">
         <motion.p

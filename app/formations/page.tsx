@@ -15,7 +15,7 @@ type Formation = {
   accent: string;
   desc: string;
   modules: string[];
-  highlights: { label: string; value: string }[];
+  highlights: { label: string; value: string; url?: string }[];
   projects?: Project[];
 };
 
@@ -28,7 +28,7 @@ const FORMATIONS: Formation[] = [
     schoolFull: "École Supérieure de Génie Informatique",
     location: "242 rue du Faubourg Saint-Antoine, 75012 Paris",
     logo: { src: "/logos/ESGI.png", alt: "ESGI" },
-    accent: "#b8ff57",
+    accent: "#8b7dff",
     desc: "Formation en ingénierie du web avancée. Spécialisation en architecture logicielle, cloud computing, management de projet tech et entrepreneuriat.",
     modules: [
       "Architecture logicielle & Design Patterns",
@@ -41,7 +41,13 @@ const FORMATIONS: Formation[] = [
     highlights: [
       {
         label: "Alternance",
-        value: "Mixijob (Startup HR Tech) — développeur fullstack unique, CDI",
+        value: "Mixijob (Startup HR Tech) — Développeur Fullstack Unique",
+        url: "https://mixijob.com/",
+      },
+      {
+        label: "Compétences développées",
+        value:
+          "Concevoir, sécuriser et piloter des systèmes d’information complets, de l’infrastructure aux applications, avec un focus sur la performance et la gestion des données.",
       },
       {
         label: "Validation",
@@ -78,24 +84,30 @@ const FORMATIONS: Formation[] = [
     schoolFull: "École Supérieure de Génie Informatique",
     location: "242 rue du Faubourg Saint-Antoine, 75012 Paris",
     logo: { src: "/logos/ESGI.png", alt: "ESGI" },
-    accent: "#b8ff57",
+    accent: "#8b7dff",
     desc: "Spécialisation en ingénierie du web — développement fullstack, conception applicative, méthodes Agile et gestion de projets techniques.",
     modules: [
-      "Développement fullstack (Laravel, Vue.js, React)",
+      "Développement fullstack (Laravel, Vue.js, React, Node.js...)",
       "Bases de données SQL & NoSQL",
       "Architecture MVC & API REST",
       "Méthodes Agile & Scrum",
       "UX/UI & intégration responsive",
-      "Gestion de version & travail en équipe (Git)",
+      "Gestion de version & travail en équipe (Git, Agile, CI/CD...)",
     ],
     highlights: [
       {
         label: "Alternance",
-        value: "Lynx Business (Agence Web) — développeur fullstack, CDI",
+        value: "Lynx Business — Développeur Fullstack",
+        url: "https://lynx-business.com/",
+      },
+      {
+        label: "Compétences développées",
+        value:
+          "Définir, concevoir, conduire et optimiser une solution logicielle ou applicative responsable.",
       },
       {
         label: "Validation",
-        value: "Décembre 2023",
+        value: "Juin 2023",
       },
     ],
     projects: [
@@ -104,6 +116,12 @@ const FORMATIONS: Formation[] = [
         period: "Mai 2024 — Juil. 2024",
         desc: "Site e-commerce de vente de nains de jardins de luxe. Backend JS/TypeScript avec développement d'un framework from scratch, SSE pour la gestion des stocks en temps réel, gestion des factures/devis/remboursements, frontend Vue.js.",
         stack: ["TypeScript", "JavaScript", "Vue.js", "SSE", "E-commerce"],
+      },
+      {
+        name: "GhostlyCRM",
+        period: "Mai 2023 — Juil. 2023",
+        desc: "Application de gestion client avec génération automatisée de factures et devis, signature sécurisée des devis, suivi de projets. Déploiement conteneurisé avec Docker.",
+        stack: ["Node.js", "Docker", "Conteneurisation"],
       },
     ],
   },
@@ -139,14 +157,6 @@ const FORMATIONS: Formation[] = [
         value: "Décembre 2020",
       },
     ],
-    projects: [
-           {
-        name: "GhostlyCRM",
-        period: "Mai 2023 — Juil. 2023",
-        desc: "Application de gestion client avec génération automatisée de factures et devis, signature sécurisée des devis, suivi de projets. Déploiement conteneurisé avec Docker.",
-        stack: ["Node.js", "Docker", "Conteneurisation"],
-      },
-    ]
   },
 ];
 
@@ -173,7 +183,8 @@ export default function FormationsPage() {
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-black leading-none tracking-tighter uppercase"
+            className="reflect-glow font-black leading-none tracking-tighter uppercase"
+            data-text="Parcours"
             style={{ fontSize: "clamp(3rem, 12vw, 10rem)", color: "var(--fg)" }}
           >
             Parcours
@@ -294,6 +305,7 @@ export default function FormationsPage() {
                           src={f.logo.src}
                           alt={f.logo.alt}
                           fill
+                          sizes="(max-width: 640px) 112px, 112px"
                           className="object-contain object-right"
                         />
                       </div>
@@ -321,7 +333,7 @@ export default function FormationsPage() {
                           className="font-mono text-xs tracking-widest uppercase"
                           style={{ color: "var(--fg-subtle)" }}
                         >
-                          Matières clés
+                          Expériences
                         </p>
                         <ul className="flex flex-col gap-1.5">
                           {f.modules.map((m, j) => (
@@ -361,6 +373,27 @@ export default function FormationsPage() {
                               >
                                 {h.value}
                               </span>
+                              {h.url && (
+                                <a
+                                  href={h.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="font-mono text-xs tracking-widest transition-colors duration-150 w-fit"
+                                  style={{ color: "var(--accent)" }}
+                                  onMouseEnter={(e) =>
+                                    ((
+                                      e.currentTarget as HTMLElement
+                                    ).style.opacity = "0.7")
+                                  }
+                                  onMouseLeave={(e) =>
+                                    ((
+                                      e.currentTarget as HTMLElement
+                                    ).style.opacity = "1")
+                                  }
+                                >
+                                  Voir le site ↗
+                                </a>
+                              )}
                             </div>
                           ))}
                         </div>

@@ -10,7 +10,7 @@ const links = [
   { label: "01 — Présentation", short: "Présentation", href: "/me" },
   { label: "02 — Formations", short: "Formations", href: "/formations" },
   { label: "03 — Projets", short: "Projets", href: "/projects" },
-  { label: "04 — CV", short: "CV", href: "/cv" },
+  { label: "04 — Mon CV", short: "Mon CV", href: "/cv" },
 ];
 
 export default function Navbar() {
@@ -30,7 +30,7 @@ export default function Navbar() {
           className="font-mono text-xs tracking-[0.3em] uppercase hover:opacity-70 transition-opacity"
           style={{ color: "var(--accent)" }}
         >
-          ID.DEV
+          IlyamDupuis.DEV
         </Link>
 
         {/* Center nav */}
@@ -39,8 +39,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="font-mono text-[11px] tracking-widest uppercase transition-colors relative group"
-              style={{ color: "var(--fg-subtle)" }}
+              className="font-mono text-xs tracking-widest uppercase transition-colors relative group text-[var(--fg-subtle)] hover:text-[var(--accent)]"
             >
               {link.short}
               <span
@@ -69,7 +68,7 @@ export default function Navbar() {
             )}
           </button>
           <span
-            className="font-mono text-[11px] tracking-widest"
+            className="font-mono text-sm tracking-widest"
             style={{ color: "var(--fg-subtle)" }}
           >
             ∞ 2026

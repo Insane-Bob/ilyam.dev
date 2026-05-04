@@ -178,7 +178,8 @@ export default function ProjectsPage() {
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="font-black leading-none tracking-tighter uppercase"
+            className="reflect-glow font-black leading-none tracking-tighter uppercase"
+            data-text="Mes"
             style={{ fontSize: "clamp(3rem, 12vw, 10rem)", color: "var(--fg)" }}
           >
             Mes

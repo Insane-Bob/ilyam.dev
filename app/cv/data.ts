@@ -60,7 +60,7 @@ export const EXPERIENCES: Experience[] = [
         period: "Nov. 2024 — Nov. 2025",
         role: "Développeur Fullstack",
         company: "Mixijob — Startup HR Tech, Bezons (95)",
-        type: "CDI",
+        type: "Alternance",
         companyDesc: "Startup HR Tech développant une plateforme de recrutement innovante en pleine croissance. Unique développeur de l'équipe fondatrice (3 personnes), j'ai piloté le développement produit et les décisions techniques, de l'architecture à la mise en production, tout en optimisant performances, SEO et expérience utilisateur.",
         url: "https://mixijob.com/",
         logo: { type: "img", src: "/logos/mixijob-logo.webp", alt: "Mixijob" },
@@ -78,7 +78,7 @@ export const EXPERIENCES: Experience[] = [
         period: "Nov. 2023 — Sep. 2024",
         role: "Développeur Fullstack",
         company: "Lynx Business — Agence Web, Cergy (95)",
-        type: "CDI",
+        type: "Alternance",
         companyDesc: "Agence web accompagnant des clients variés (immobilier, notariat, santé, social, recrutement) sur des projets sur-mesure et SaaS. Au sein d'une équipe de 5 développeurs, j'ai développé des solutions à forte logique métier, piloté plusieurs projets en parallèle en méthodologie Agile, et contribué à la qualité du code, l'architecture et l'optimisation front-end et back-end.",
         url: "https://lynx-business.com/",
         logo: { type: "component" },
@@ -94,7 +94,7 @@ export const EXPERIENCES: Experience[] = [
         period: "Jan. 2021 — Juil. 2023",
         role: "Développeur Web & Mobile",
         company: "Cultur'easy — Entreprise culturelle, Haute-Savoie",
-        type: "CDD / Freelance",
+        type: "Alternance",
         companyDesc: "Entreprise culturelle développant des solutions web et mobiles pour la gestion d'événements. Rôle transversal combinant développement, design et communication digitale — création d'applications et sites sur-mesure, optimisation UX, SEO et diffusion des contenus.",
         url: "https://pro.cultureasy.com/",
         logo: { type: "img", src: "/logos/cultureasy.webp", alt: "Cultur'easy" },
@@ -185,13 +185,15 @@ export const SKILLS: SkillGroup[] = [
 /* ── Intro ──────────────────────────────────────────────────── */
 
 export const INTRO_PARAS = [
-    "Développeur fullstack passionné par la conception de produits robustes et l'expérience utilisateur. Je travaille aussi bien sur la partie frontend que backend, avec une appétence particulière pour l'architecture logicielle et la qualité du code.",
-    "En parallèle du développement, j'évolue vers des rôles de chef de projet et CPO, en portant une vision produit globale : de l'idée à la mise en production, en passant par la stratégie, les specs et le suivi.",
-    "Polyvalent, rigoureux, orienté résultats. Je construis des systèmes qui durent.",
+    "Développeur fullstack, je conçois et développe des produits web de bout en bout, du frontend au backend, avec une attention particulière portée à l’architecture logicielle, la qualité du code et l’expérience utilisateur.",
+    
+    "En parallèle du développement, j’évolue vers des rôles de chef de projet et de CPO, en pilotant des produits de l’idée jusqu’à la mise en production : cadrage, spécifications, choix techniques et suivi de delivery.",
+    
+    "Polyvalent et rigoureux, j’ai une approche orientée impact et résultats. Je construis des systèmes robustes, pensés pour durer et évoluer."
 ];
 
 export const STATS = [
-    { val: "4+", label: "Années d'expérience" },
+    { val: "5+", label: "Années d'expérience" },
     { val: "20+", label: "Projets livrés" },
     { val: "3", label: "Entreprises" },
 ];

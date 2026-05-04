@@ -52,6 +52,7 @@ export default function TabForm() {
                   src={f.logo.src}
                   alt={f.logo.alt}
                   fill
+                  sizes="96px"
                   className="object-contain object-right"
                 />
               </div>
