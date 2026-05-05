@@ -2,8 +2,11 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import LynxBusinessLogo from "../../components/icons/LynxBusinessLogo";
+import { getLocaleFromPathname } from "../../i18n/locale";
 import { EXPERIENCES, type Logo } from "../data";
+import { EXPERIENCES_EN } from "../data.en";
 
 function ExpLogo({ logo }: { logo: Logo }) {
   if (logo.type === "component") {
@@ -38,9 +41,13 @@ function StackPill({ label }: { label: string }) {
 }
 
 export default function TabExp() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const experiences = locale === "en" ? EXPERIENCES_EN : EXPERIENCES;
+
   return (
     <div className="flex flex-col gap-5">
-      {EXPERIENCES.map((exp, i) => (
+      {experiences.map((exp, i) => (
         <motion.article
           key={i}
           initial={{ opacity: 0, y: 16 }}

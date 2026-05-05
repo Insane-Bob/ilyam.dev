@@ -1,9 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname } from "../../i18n/locale";
+import { getPageDictionaries } from "../../i18n/pages";
 import { INTRO_PARAS, STATS } from "../data";
+import { INTRO_PARAS_EN, STATS_EN } from "../data.en";
 
 export default function TabIntro() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const t = getPageDictionaries(locale).cv;
+  const introParas = locale === "en" ? INTRO_PARAS_EN : INTRO_PARAS;
+  const stats = locale === "en" ? STATS_EN : STATS;
+
   return (
     <div className="flex flex-col gap-8">
       <div>
@@ -11,10 +21,10 @@ export default function TabIntro() {
           className="font-mono text-xs tracking-widest uppercase mb-4"
           style={{ color: "var(--fg-subtle)" }}
         >
-          Développeur Fullstack & Chef de Projet
+          {t.introHeadline}
         </p>
         <div className="flex flex-col gap-4">
-          {INTRO_PARAS.map((p, i) => (
+          {introParas.map((p, i) => (
             <motion.p
               key={i}
               initial={{ opacity: 0, y: 12 }}
@@ -33,7 +43,7 @@ export default function TabIntro() {
         className="grid grid-cols-2 sm:grid-cols-3 gap-px border"
         style={{ background: "var(--border)", borderColor: "var(--border)" }}
       >
-        {STATS.map(({ val, label }) => (
+        {stats.map(({ val, label }) => (
           <div
             key={label}
             className="flex flex-col px-5 py-6 gap-1"

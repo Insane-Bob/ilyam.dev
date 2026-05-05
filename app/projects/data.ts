@@ -549,3 +549,14 @@ export const PROJECTS: Project[] = [
 export function getProjectBySlug(slug: string) {
     return PROJECTS.find((project) => project.slug === slug);
 }
+
+export async function getProjectData(slug: string, locale: string): Promise<Project | undefined> {
+    const base = getProjectBySlug(slug);
+    if (!base) return undefined;
+    if (locale === "en") {
+        const { PROJECTS_EN } = await import("./data.en");
+        const override = PROJECTS_EN[slug];
+        if (override) return { ...base, ...override, screenshots: override.screenshots ? base.screenshots.map((s, i) => ({ ...s, ...(override.screenshots?.[i] ?? {}) })) : base.screenshots };
+    }
+    return base;
+}

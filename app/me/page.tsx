@@ -1,72 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import Footer from "../components/Footer";
-
-const traitCategories = [
-  {
-    label: "Engineering",
-    items: [
-      {
-        num: "01",
-        title: "Fullstack Engineering",
-        desc: "Conception, architecture et mise en production de produits complets. Du frontend à l’infra, avec une approche orientée performance, scalabilité et qualité.",
-      },
-      {
-        num: "03",
-        title: "Performance & Scalabilité",
-        desc: "Optimisation des systèmes critiques, réduction des coûts techniques et amélioration continue pour soutenir la croissance produit.",
-      },
-    ],
-  },
-  {
-    label: "Produit",
-    items: [
-      {
-        num: "02",
-        title: "Product & Tech Leadership",
-        desc: "Pilotage technique et vision produit. Priorisation, décisions d’architecture et coordination pour transformer des enjeux métier en solutions concrètes.",
-      },
-      {
-        num: "04",
-        title: "User-Centric Thinking",
-        desc: "Conception d’expériences utiles et mesurables. UX, data et feedback utilisateur au cœur des décisions produit.",
-      },
-    ],
-  },
-];
-
-const techStackCategories = [
-  {
-    label: "Backend",
-    items: ["Laravel", "Symfony", "Node.js", "NestJS"],
-  },
-  {
-    label: "Frontend",
-    items: ["Vue.js", "Nuxt.js", "React", "Next.js", "Inertia.js"],
-  },
-  {
-    label: "Langages",
-    items: ["TypeScript", "JavaScript (ES6+)", "PHP"],
-  },
-  {
-    label: "UI / UX",
-    items: ["Tailwind CSS", "Shadcn UI", "Bootstrap"],
-  },
-  {
-    label: "Data & APIs",
-    items: ["REST", "GraphQL", "PostgreSQL", "MySQL", "MongoDB", "Redis"],
-  },
-  {
-    label: "DevOps & Infra",
-    items: ["Docker", "AWS", "Vercel", "Laravel Forge"],
-  },
-  {
-    label: "Outils",
-    items: ["Git", "Stripe"],
-  },
-];
+import { getLocaleFromPathname } from "../i18n/locale";
+import { getPageDictionaries } from "../i18n/pages";
 export default function MePage() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const t = getPageDictionaries(locale).me;
+
+  const traitCategories = t.traitCategories;
+  const techStackCategories = t.techStackCategories;
+
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)] overflow-hidden">
       {/* ── HERO ─────────────────────────────────────────── */}
@@ -83,7 +29,7 @@ export default function MePage() {
           transition={{ duration: 0.5 }}
           className="font-mono text-[11px] tracking-[0.3em] uppercase text-[var(--accent)] mb-8"
         >
-          [01] — Présentation
+          {t.heroTag}
         </motion.p>
 
         <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -128,7 +74,7 @@ export default function MePage() {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="flex flex-wrap gap-3"
         >
-          {["Développeur Fullstack", "Open to Work"].map((tag, i) => (
+          {t.roleTags.map((tag, i) => (
             <span
               key={i}
               className={`font-mono text-[10px] tracking-widest uppercase px-3 py-1.5 border ${
@@ -152,12 +98,12 @@ export default function MePage() {
           transition={{ duration: 0.6 }}
         >
           <p className="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--fg-subtle)] mb-4">
-            [ABOUT]
+            {t.bioLabel}
           </p>
           <p className="font-mono text-xs text-[var(--fg-muted)] leading-relaxed">
-            Disponible
+            {t.bioAvailability}
             <br />
-            Ile-de-France - Normandie, FRANCE
+            {t.bioLocation}
             <br />
           </p>
         </motion.div>
@@ -170,23 +116,21 @@ export default function MePage() {
           className="flex flex-col gap-5"
         >
           <p className="text-xl md:text-2xl font-light leading-relaxed text-[#ccc]">
-            Développeur fullstack,{" "}
+            {t.bioParagraph1Prefix}
             <span className="text-[var(--accent)] font-semibold">
-              orienté produit
+              {t.bioParagraph1Highlight}
             </span>{" "}
-            — je conçois des expériences digitales utiles, durables et pensées
-            pour l’usage, de l’idée à la mise en production.
+            {t.bioParagraph1Suffix}
           </p>
 
           <p className="text-base leading-relaxed text-[#666] font-mono">
-            J’interviens sur des projets à enjeux, où se rencontrent vision
-            produit, exigence technique et qualité d’exécution.
+            {t.bioParagraph2}
           </p>
 
           <p className="text-base leading-relaxed text-[#666] font-mono">
-            Pragmatique et focalisé sur la valeur, je fais le lien entre{" "}
-            <span className="text-[var(--fg)]">tech, UX et besoins métier</span>{" "}
-            pour construire des solutions qui font vraiment sens.
+            {t.bioParagraph3Prefix}
+            <span className="text-[var(--fg)]">{t.bioParagraph3Highlight}</span>{" "}
+            {t.bioParagraph3Suffix}
           </p>
         </motion.div>
       </section>
@@ -199,7 +143,7 @@ export default function MePage() {
           viewport={{ once: true }}
           className="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--fg-subtle)] mb-12"
         >
-          [CE QUE JE FAIS]
+          {t.traitsLabel}
         </motion.p>
 
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
@@ -253,7 +197,7 @@ export default function MePage() {
           viewport={{ once: true }}
           className="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--fg-subtle)] mb-12"
         >
-          [STACK TECHNIQUE]
+          {t.stackLabel}
         </motion.p>
 
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">

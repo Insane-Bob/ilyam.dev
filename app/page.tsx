@@ -2,37 +2,31 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
+import type { Locale } from "../i18n/settings";
 import Footer from "./components/Footer";
+import { getLocaleFromPathname, withLocalePath } from "./i18n/locale";
+import { getPageDictionaries } from "./i18n/pages/index";
 
-const ROLES = ["Développeur Fullstack", "Chef de Projet"] as const;
-
-const sections = [
-  {
-    num: "01",
-    label: "Présentation",
-    href: "/me",
-    tag: "ABOUT",
-    desc: "Qui suis-je, d'où est-ce que je viens, où est-ce que je vais.",
-  },
-  {
-    num: "02",
-    label: "Formations",
-    href: "/formations",
-    tag: "EDUCATION",
-    desc: "Mon cursus académique, mes apprentissages, mes certifications.",
-  },
-  {
-    num: "03",
-    label: "Projets",
-    href: "/projects",
-    tag: "WORKS",
-    desc: "Des projets, idées que j'ai pu concrétiser, seul ou en équipe, pro ou perso.",
-  },
-] as const;
+type SectionItem = {
+  num: string;
+  label: string;
+  href: string;
+  tag: string;
+  desc: string;
+};
 
 /* ── Section row ─────────────────────────────────────────── */
-function SectionRow({ s, i }: { s: (typeof sections)[number]; i: number }) {
+function SectionRow({
+  s,
+  i,
+  locale,
+}: {
+  s: SectionItem;
+  i: number;
+  locale: Locale;
+}) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -43,7 +37,7 @@ function SectionRow({ s, i }: { s: (typeof sections)[number]; i: number }) {
       transition={{ duration: 0.5, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
     >
       <Link
-        href={s.href}
+        href={withLocalePath(s.href, locale)}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         className="flex items-center justify-between py-8 gap-8 border-b"
@@ -100,6 +94,10 @@ function SectionRow({ s, i }: { s: (typeof sections)[number]; i: number }) {
 
 /* ── Page ─────────────────────────────────────────────────── */
 export default function HomePage() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const t = getPageDictionaries(locale).home;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -146,7 +144,7 @@ export default function HomePage() {
               className="font-mono text-xs tracking-widest uppercase"
               style={{ color: "var(--accent)" }}
             >
-              Disponible — Open to work
+              {t.statusBadge}
             </span>
           </motion.div>
 
@@ -201,12 +199,10 @@ export default function HomePage() {
                 className="font-mono text-sm leading-relaxed"
                 style={{ color: "var(--fg-muted)" }}
               >
-                Développeur Fullstack passionné par la réflexion autour du
-                produit, j’essaie de construire des expériences digitales à la
-                fois utiles, modulables et orientées UX.
+                {t.heroBio}
               </p>
               <div className="flex flex-wrap gap-2">
-                {ROLES.map((role) => (
+                {t.roles.map((role: string) => (
                   <span
                     key={role}
                     className="font-mono text-xs tracking-widest uppercase px-3 py-1 border"
@@ -224,7 +220,7 @@ export default function HomePage() {
             {/* Right — CTA buttons */}
             <div className="flex gap-3 shrink-0">
               <Link
-                href="/projects"
+                href={withLocalePath("/projects", locale)}
                 className="inline-flex items-center gap-2 px-6 py-3 font-mono text-xs tracking-widest uppercase font-semibold border transition-all duration-200"
                 style={{ borderColor: "var(--accent)", color: "var(--accent)" }}
                 onMouseEnter={(e) => {
@@ -236,10 +232,10 @@ export default function HomePage() {
                   e.currentTarget.style.color = "var(--accent)";
                 }}
               >
-                Projets →
+                {t.ctaProjects}
               </Link>
               <Link
-                href="/me"
+                href={withLocalePath("/me", locale)}
                 className="inline-flex items-center gap-2 px-6 py-3 font-mono text-xs tracking-widest uppercase border transition-all duration-200"
                 style={{
                   borderColor: "var(--border-mid)",
@@ -254,7 +250,7 @@ export default function HomePage() {
                   e.currentTarget.style.color = "var(--fg-muted)";
                 }}
               >
-                À propos
+                {t.ctaAbout}
               </Link>
             </div>
           </motion.div>
@@ -279,12 +275,12 @@ export default function HomePage() {
           viewport={{ once: true }}
           className="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--fg-subtle)] mb-12"
         >
-          [SOMMAIRE]
+          {t.sommaire}
         </motion.p>
 
         <div className="border-t" style={{ borderColor: "var(--border)" }}>
-          {sections.map((s, i) => (
-            <SectionRow key={s.href} s={s} i={i} />
+          {t.sections.map((s: SectionItem, i: number) => (
+            <SectionRow key={s.href} s={s} i={i} locale={locale} />
           ))}
         </div>
       </section>

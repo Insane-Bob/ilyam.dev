@@ -3,45 +3,60 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { LOCALES, type Locale } from "../../i18n/settings";
+import { getLocaleFromPathname, withLocalePath } from "../i18n/locale";
+import { getPageDictionaries } from "../i18n/pages";
 import { useTheme } from "./ThemeProvider";
 
-const links = [
-  { label: "01 — Présentation", short: "Présentation", href: "/me" },
-  { label: "02 — Formations", short: "Formations", href: "/formations" },
-  { label: "03 — Projets", short: "Projets", href: "/projects" },
-  { label: "04 — Mon CV", short: "Mon CV", href: "/cv" },
-];
+const navLinks = [
+  { key: "me", href: "/me" },
+  { key: "formations", href: "/formations" },
+  { key: "projects", href: "/projects" },
+  { key: "cv", href: "/cv" },
+] as const;
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname() ?? "/";
+  const router = useRouter();
+  const locale = getLocaleFromPathname(pathname);
+  const t = getPageDictionaries(locale).common;
   const { theme, toggle } = useTheme();
+
+  const toLocalePath = (href: string) => withLocalePath(href, locale);
+
+  const handleLocaleChange = (nextLocale: Locale) => {
+    if (typeof document !== "undefined") {
+      document.cookie = `NEXT_LOCALE=${nextLocale}; path=/; max-age=31536000`;
+    }
+    router.push(withLocalePath(pathname, nextLocale));
+    setOpen(false);
+  };
 
   return (
     <>
-      {/* Desktop: thin top strip */}
       <header
         className="fixed top-0 inset-x-0 z-50 hidden md:flex items-center justify-between px-8 h-12 border-b backdrop-blur-sm"
         style={{ borderColor: "var(--border)", background: "var(--navbar-bg)" }}
       >
-        {/* Logo */}
         <Link
-          href="/"
+          href={toLocalePath("/")}
           className="font-mono text-xs tracking-[0.3em] uppercase hover:opacity-70 transition-opacity"
           style={{ color: "var(--accent)" }}
         >
-          IlyamDupuis.DEV
+          {t.brand}
         </Link>
 
-        {/* Center nav */}
         <nav className="flex items-center gap-8">
-          {links.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={toLocalePath(link.href)}
               className="font-mono text-xs tracking-widest uppercase transition-colors relative group text-[var(--fg-subtle)] hover:text-[var(--accent)]"
             >
-              {link.short}
+              {t.nav[link.key]}
               <span
                 className="absolute -bottom-0.5 left-0 w-0 group-hover:w-full h-px transition-all duration-300"
                 style={{ background: "var(--accent)" }}
@@ -50,8 +65,17 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Right: theme toggle + year */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <select
+            aria-label={t.languageLabel}
+            value={locale}
+            onChange={(event) => handleLocaleChange(event.target.value as Locale)}
+            className="h-8 px-2 font-mono text-xs border bg-[var(--card-bg)]"
+            style={{ borderColor: "var(--border-mid)", color: "var(--fg-subtle)" }}
+          >
+            <option value={LOCALES[0]}>{t.localeFr}</option>
+            <option value={LOCALES[1]}>{t.localeEn}</option>
+          </select>
           <button
             onClick={toggle}
             aria-label="Toggle theme"
@@ -76,7 +100,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile: floating burger */}
       {!open && (
         <div className="md:hidden fixed top-10 right-4 z-50">
           <button
@@ -94,7 +117,6 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* Mobile: fullscreen menu */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -108,17 +130,28 @@ export default function Navbar() {
               borderLeft: "2px solid var(--accent)",
             }}
           >
-            {/* Logo + controls top */}
             <div className="absolute top-8 left-10 right-10 flex items-center justify-between">
               <Link
-                href="/"
+                href={toLocalePath("/")}
                 onClick={() => setOpen(false)}
                 className="font-mono text-xs tracking-[0.3em] uppercase"
                 style={{ color: "var(--accent)" }}
               >
-                ID.DEV
+                {t.mobileBrand}
               </Link>
               <div className="flex items-center gap-2">
+                <select
+                  aria-label={t.languageLabel}
+                  value={locale}
+                  onChange={(event) =>
+                    handleLocaleChange(event.target.value as Locale)
+                  }
+                  className="h-10 px-2 font-mono text-xs border bg-[var(--card-bg)]"
+                  style={{ borderColor: "var(--border-mid)", color: "var(--fg-subtle)" }}
+                >
+                  <option value={LOCALES[0]}>{t.localeFr}</option>
+                  <option value={LOCALES[1]}>{t.localeEn}</option>
+                </select>
                 <button
                   onClick={toggle}
                   className="w-10 h-10 flex items-center justify-center border transition-colors"
@@ -151,7 +184,7 @@ export default function Navbar() {
             </div>
 
             <nav className="flex flex-col gap-6">
-              {links.map((link, i) => (
+              {navLinks.map((link, i) => (
                 <motion.div
                   key={link.href}
                   initial={{ opacity: 0, x: 40 }}
@@ -159,7 +192,7 @@ export default function Navbar() {
                   transition={{ delay: 0.1 + i * 0.08, duration: 0.4 }}
                 >
                   <Link
-                    href={link.href}
+                    href={toLocalePath(link.href)}
                     onClick={() => setOpen(false)}
                     className="group flex items-baseline gap-4"
                   >
@@ -173,7 +206,7 @@ export default function Navbar() {
                       className="text-4xl font-black uppercase tracking-tight transition-colors"
                       style={{ color: "var(--fg)" }}
                     >
-                      {link.short}
+                      {t.nav[link.key]}
                     </span>
                   </Link>
                 </motion.div>

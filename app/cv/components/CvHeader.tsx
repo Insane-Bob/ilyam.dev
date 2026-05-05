@@ -1,8 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname } from "../../i18n/locale";
+import { getPageDictionaries } from "../../i18n/pages";
 
 export default function CvHeader() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const t = getPageDictionaries(locale).cv;
+
   return (
     <div
       className="px-6 md:px-16 py-5 border-b flex items-center justify-between"
@@ -14,7 +21,7 @@ export default function CvHeader() {
         className="font-mono text-xs tracking-widest uppercase"
         style={{ color: "var(--fg-subtle)" }}
       >
-        Curriculum Vitæ
+        {t.headerTitle}
       </motion.span>
 
       <motion.a
@@ -35,7 +42,7 @@ export default function CvHeader() {
           (e.currentTarget as HTMLElement).style.color = "var(--fg-muted)";
         }}
       >
-        ↓ Télécharger PDF
+        {t.downloadPdf}
       </motion.a>
     </div>
   );

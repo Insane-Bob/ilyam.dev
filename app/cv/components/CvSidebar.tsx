@@ -2,8 +2,12 @@
 
 import { motion } from "framer-motion";
 import { Car, Globe, Mail, MapPin } from "lucide-react";
+import { usePathname } from "next/navigation";
 import GithubIcon from "../../components/icons/GithubIcon";
+import { getLocaleFromPathname } from "../../i18n/locale";
+import { getPageDictionaries } from "../../i18n/pages";
 import { PERSONAL } from "../data";
+import { PERSONAL_EN } from "../data.en";
 
 function ContactRow({
   href,
@@ -55,6 +59,17 @@ function ContactRow({
 }
 
 export default function CvSidebar() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const t = getPageDictionaries(locale).cv;
+  const personal =
+    locale === "en"
+      ? {
+          ...PERSONAL,
+          ...PERSONAL_EN,
+        }
+      : PERSONAL;
+
   return (
     <aside
       className="w-full md:w-64 lg:w-72 shrink-0 border-b md:border-b-0 md:border-r"
@@ -70,7 +85,7 @@ export default function CvSidebar() {
             className="font-mono text-xs tracking-widest uppercase mb-4"
             style={{ color: "var(--fg-subtle)" }}
           >
-            Identité
+            {t.identity}
           </motion.p>
 
           <motion.div
@@ -109,7 +124,7 @@ export default function CvSidebar() {
               className="font-mono text-xs tracking-widest uppercase"
               style={{ color: "var(--accent)" }}
             >
-              Disponible — 2026
+              {t.status}
             </span>
           </motion.div>
         </section>
@@ -127,22 +142,22 @@ export default function CvSidebar() {
             className="font-mono text-xs tracking-widest uppercase"
             style={{ color: "var(--fg-subtle)" }}
           >
-            Contact
+            {t.contact}
           </p>
           <ContactRow href={`mailto:${PERSONAL.email}`} icon={Mail}>
-            {PERSONAL.email}
+            {personal.email}
           </ContactRow>
-          <ContactRow icon={MapPin}>{PERSONAL.location}</ContactRow>
-          <ContactRow icon={Car}>{PERSONAL.permis}</ContactRow>
-          <ContactRow href={`https://${PERSONAL.site}`} icon={Globe} external>
-            {PERSONAL.site}
+          <ContactRow icon={MapPin}>{personal.location}</ContactRow>
+          <ContactRow icon={Car}>{personal.permis}</ContactRow>
+          <ContactRow href={`https://${personal.site}`} icon={Globe} external>
+            {personal.site}
           </ContactRow>
           <ContactRow
-            href={`https://${PERSONAL.github}`}
+            href={`https://${personal.github}`}
             icon={GithubIcon}
             external
           >
-            {PERSONAL.github}
+            {personal.github}
           </ContactRow>
         </motion.section>
 
@@ -155,7 +170,7 @@ export default function CvSidebar() {
           transition={{ delay: 0.65 }}
           className="flex flex-wrap gap-2"
         >
-          {PERSONAL.roles.map((tag) => (
+          {personal.roles.map((tag) => (
             <span
               key={tag}
               className="font-mono text-xs tracking-widest uppercase px-2 py-1 border"
@@ -176,10 +191,13 @@ export default function CvSidebar() {
           transition={{ delay: 0.75 }}
           className="flex flex-wrap gap-2"
         >
-          <p className="w-full font-mono text-xs tracking-widest uppercase" style={{ color: "var(--fg-subtle)" }}>
-            Objectifs
+          <p
+            className="w-full font-mono text-xs tracking-widest uppercase"
+            style={{ color: "var(--fg-subtle)" }}
+          >
+            {t.objectives}
           </p>
-          {PERSONAL.targetRoles.map((tag) => (
+          {personal.targetRoles.map((tag) => (
             <span
               key={tag}
               className="font-mono text-xs tracking-widest uppercase px-2 py-1 border"

@@ -3,7 +3,10 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Footer from "../components/Footer";
+import { getLocaleFromPathname, withLocalePath } from "../i18n/locale";
+import { getPageDictionaries } from "../i18n/pages";
 
 type Project = { name: string; period: string; desc: string; stack: string[] };
 type Formation = {
@@ -161,6 +164,39 @@ const FORMATIONS: Formation[] = [
 ];
 
 export default function FormationsPage() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const t = getPageDictionaries(locale).formations;
+
+  const formations = FORMATIONS.map((formation, index) => {
+    const translated = t.items[index];
+    if (!translated) return formation;
+
+    return {
+      ...formation,
+      diploma: translated.diploma,
+      desc: translated.desc,
+      modules: translated.modules,
+      highlights: formation.highlights.map((highlight, highlightIndex) => {
+        const translatedHighlight = translated.highlights[highlightIndex];
+        if (!translatedHighlight) return highlight;
+        return {
+          ...highlight,
+          label: translatedHighlight.label,
+          value: translatedHighlight.value,
+        };
+      }),
+      projects: formation.projects?.map((project, projectIndex) => {
+        const translatedProject = translated.projects[projectIndex];
+        if (!translatedProject) return project;
+        return {
+          ...project,
+          desc: translatedProject.desc,
+        };
+      }),
+    };
+  });
+
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
       {/* ── HERO ───────────────────────────────────────────── */}
@@ -175,7 +211,7 @@ export default function FormationsPage() {
           className="font-mono text-xs tracking-[0.3em] uppercase mb-8"
           style={{ color: "var(--accent)" }}
         >
-          [02] — Formations
+          {t.heroTag}
         </motion.p>
 
         <div className="overflow-hidden mb-2">
@@ -184,10 +220,10 @@ export default function FormationsPage() {
             animate={{ y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="reflect-glow font-black leading-none tracking-tighter uppercase"
-            data-text="Parcours"
+            data-text={t.heroTitle1}
             style={{ fontSize: "clamp(3rem, 12vw, 10rem)", color: "var(--fg)" }}
           >
-            Parcours
+            {t.heroTitle1}
           </motion.h1>
         </div>
         <div className="overflow-hidden mb-10">
@@ -202,7 +238,7 @@ export default function FormationsPage() {
               color: "transparent",
             }}
           >
-            Académique
+            {t.heroTitle2}
           </motion.h2>
         </div>
 
@@ -213,9 +249,7 @@ export default function FormationsPage() {
           className="font-mono text-sm leading-relaxed max-w-xl"
           style={{ color: "var(--fg-muted)" }}
         >
-          Bac+5 en ingénierie du web. Un parcours construit sur la pratique,
-          l'alternance et des projets réels — des fondamentaux aux architectures
-          avancées.
+          {t.heroDesc}
         </motion.p>
 
         <motion.div
@@ -225,7 +259,7 @@ export default function FormationsPage() {
           className="mt-8"
         >
           <Link
-            href="/cv"
+            href={withLocalePath("/cv", locale)}
             className="inline-flex items-center gap-2 px-6 py-3 font-mono text-xs tracking-widest uppercase font-semibold border transition-all duration-200"
             style={{ borderColor: "var(--accent)", color: "var(--accent)" }}
             onMouseEnter={(e) => {
@@ -237,7 +271,7 @@ export default function FormationsPage() {
               e.currentTarget.style.color = "var(--accent)";
             }}
           >
-            Voir le CV complet →
+            {t.cvCta}
           </Link>
         </motion.div>
       </section>
@@ -253,7 +287,7 @@ export default function FormationsPage() {
           />
 
           <div className="flex flex-col gap-0">
-            {FORMATIONS.map((f, i) => (
+            {formations.map((f, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -24 }}
@@ -356,7 +390,7 @@ export default function FormationsPage() {
                           className="font-mono text-xs tracking-widest uppercase"
                           style={{ color: "var(--fg-subtle)" }}
                         >
-                          Expériences
+                          {t.sectionModules}
                         </p>
                         <ul className="flex flex-col gap-1.5">
                           {f.modules.map((m, j) => (
@@ -430,7 +464,7 @@ export default function FormationsPage() {
                           className="font-mono text-xs tracking-widest uppercase"
                           style={{ color: "var(--fg-subtle)" }}
                         >
-                          Projets académiques
+                          {t.sectionProjects}
                         </p>
                         <div
                           className="flex flex-col gap-px"

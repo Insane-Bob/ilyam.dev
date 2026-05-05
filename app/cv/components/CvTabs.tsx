@@ -1,8 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { getLocaleFromPathname } from "../../i18n/locale";
 import { TABS, type TabId } from "../data";
+import { TABS_EN } from "../data.en";
 import TabExp from "./TabExp";
 import TabForm from "./TabForm";
 import TabIntro from "./TabIntro";
@@ -16,6 +19,9 @@ const TAB_CONTENT: Record<TabId, React.ReactNode> = {
 };
 
 export default function CvTabs() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const tabs = locale === "en" ? TABS_EN : TABS;
   const [activeTab, setActiveTab] = useState<TabId>("intro");
 
   return (
@@ -25,7 +31,7 @@ export default function CvTabs() {
         className="flex border-b overflow-x-auto"
         style={{ borderColor: "var(--border)" }}
       >
-        {TABS.map((tab, i) => (
+        {tabs.map((tab, i) => (
           <motion.button
             key={tab.id}
             initial={{ opacity: 0, y: -6 }}

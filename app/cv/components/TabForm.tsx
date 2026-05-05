@@ -2,15 +2,22 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname } from "../../i18n/locale";
 import { FORMATIONS } from "../data";
+import { FORMATIONS_EN } from "../data.en";
 
 export default function TabForm() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const formations = locale === "en" ? FORMATIONS_EN : FORMATIONS;
+
   return (
     <div
       className="flex flex-col divide-y"
       style={{ borderColor: "var(--border)" }}
     >
-      {FORMATIONS.map((f, i) => (
+      {formations.map((f, i) => (
         <motion.article
           key={i}
           initial={{ opacity: 0, y: 16 }}

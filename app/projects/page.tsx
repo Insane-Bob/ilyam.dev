@@ -2,13 +2,16 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import Footer from "../components/Footer";
+import { getLocaleFromPathname, withLocalePath } from "../i18n/locale";
+import { getPageDictionaries } from "../i18n/pages";
 import type { Project } from "./data";
-import { CATEGORY_LABELS, PROJECTS } from "./data";
+import { CATEGORY_LABELS, PROJECTS, type ProjectCategory } from "./data";
+import { PROJECTS_EN } from "./data.en";
 
-const CATEGORIES = [
+const DEFAULT_CATEGORIES = [
   { id: "all", label: "Tous" },
   { id: "pro", label: "Pro" },
   { id: "freelance", label: "Freelance" },
@@ -16,9 +19,32 @@ const CATEGORIES = [
   { id: "perso", label: "Perso" },
 ] as const;
 
-type FilterId = (typeof CATEGORIES)[number]["id"];
+type FilterId = (typeof DEFAULT_CATEGORIES)[number]["id"];
+
+function getLocalizedProject(project: Project, locale: "fr" | "en"): Project {
+  if (locale !== "en") return project;
+
+  const override = PROJECTS_EN[project.slug];
+  if (!override) return project;
+
+  return {
+    ...project,
+    ...override,
+    screenshots: override.screenshots
+      ? project.screenshots.map((shot, index) => ({
+          ...shot,
+          ...(override.screenshots?.[index] ?? {}),
+        }))
+      : project.screenshots,
+  };
+}
 
 export default function ProjectsPage() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const t = getPageDictionaries(locale).projects;
+  const CATEGORIES = t.categories;
+
   function ProjectRow({ project, i }: { project: Project; i: number }) {
     const router = useRouter();
     const [hovered, setHovered] = useState(false);
@@ -33,13 +59,13 @@ export default function ProjectsPage() {
         style={{ background: hovered ? "var(--card-bg)" : "var(--bg)" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        onClick={() => router.push(`/projects/${project.slug}`)}
+        onClick={() => router.push(withLocalePath(`/projects/${project.slug}`, locale))}
         role="link"
         tabIndex={0}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
-            router.push(`/projects/${project.slug}`);
+            router.push(withLocalePath(`/projects/${project.slug}`, locale));
           }
         }}
       >
@@ -64,7 +90,14 @@ export default function ProjectsPage() {
                   : "var(--fg-subtle)",
             }}
           >
-            {CATEGORY_LABELS[project.category]}
+            {locale === "en"
+              ? ({
+                  pro: "Pro",
+                  freelance: "Freelance",
+                  scolaire: "Academic",
+                  perso: "Personal",
+                } as Record<ProjectCategory, string>)[project.category]
+              : CATEGORY_LABELS[project.category]}
           </span>
           <span
             className="font-mono text-xs transition-colors duration-200 hidden sm:block"
@@ -109,7 +142,7 @@ export default function ProjectsPage() {
                       "var(--fg-subtle)";
                   }}
                 >
-                  ↗ Voir le site
+                  {t.visitSite}
                 </a>
               </div>
             )}
@@ -170,8 +203,14 @@ export default function ProjectsPage() {
 
   const [filter, setFilter] = useState<FilterId>("all");
 
+  const localizedProjects = PROJECTS.map((project) =>
+    getLocalizedProject(project, locale)
+  );
+
   const filtered =
-    filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
+    filter === "all"
+      ? localizedProjects
+      : localizedProjects.filter((p) => p.category === filter);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--bg)" }}>
@@ -187,7 +226,7 @@ export default function ProjectsPage() {
           className="font-mono text-xs tracking-[0.3em] uppercase mb-6 sm:mb-8"
           style={{ color: "var(--accent)" }}
         >
-          [03] — Projets
+          {t.heroTag}
         </motion.p>
 
         <div className="overflow-hidden mb-2">
@@ -196,13 +235,13 @@ export default function ProjectsPage() {
             animate={{ y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="reflect-glow font-black leading-none tracking-tighter uppercase"
-            data-text="Mes"
+            data-text={t.heroTitle1}
             style={{
               fontSize: "clamp(2.75rem, 12vw, 10rem)",
               color: "var(--fg)",
             }}
           >
-            Mes
+            {t.heroTitle1}
           </motion.h1>
         </div>
         <div className="overflow-hidden mb-8 sm:mb-10">
@@ -217,7 +256,7 @@ export default function ProjectsPage() {
               color: "transparent",
             }}
           >
-            Projets
+            {t.heroTitle2}
           </motion.h2>
         </div>
 
@@ -228,8 +267,7 @@ export default function ProjectsPage() {
           className="font-mono text-sm leading-relaxed max-w-xl"
           style={{ color: "var(--fg-muted)" }}
         >
-          Projets professionnels, scolaires et personnels — du e-commerce à
-          l'IA, en passant par les CRM et les cartes interactives.
+          {t.heroDesc}
         </motion.p>
 
         <motion.div
@@ -239,7 +277,7 @@ export default function ProjectsPage() {
           className="mt-6 sm:mt-8"
         >
           <Link
-            href="/cv"
+            href={withLocalePath("/cv", locale)}
             className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 font-mono text-xs tracking-widest uppercase font-semibold border transition-all duration-200"
             style={{ borderColor: "var(--accent)", color: "var(--accent)" }}
             onMouseEnter={(e) => {
@@ -251,7 +289,7 @@ export default function ProjectsPage() {
               e.currentTarget.style.color = "var(--accent)";
             }}
           >
-            Voir le CV complet →
+            {t.cvCta}
           </Link>
         </motion.div>
       </section>
@@ -269,7 +307,7 @@ export default function ProjectsPage() {
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setFilter(cat.id)}
+              onClick={() => setFilter(cat.id as FilterId)}
               className="px-4 sm:px-6 py-3 sm:py-4 font-mono text-xs tracking-widest uppercase transition-colors duration-200 relative whitespace-nowrap"
               style={{
                 color: filter === cat.id ? "var(--accent)" : "var(--fg-subtle)",
@@ -301,7 +339,7 @@ export default function ProjectsPage() {
             className="ml-auto px-4 sm:px-6 py-3 sm:py-4 font-mono text-xs whitespace-nowrap"
             style={{ color: "var(--fg-subtle)", background: "var(--bg)" }}
           >
-            {filtered.length} projet{filtered.length > 1 ? "s" : ""}
+            {t.projectCount(filtered.length)}
           </span>
         </div>
       </div>

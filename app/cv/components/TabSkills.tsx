@@ -1,7 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { getLocaleFromPathname } from "../../i18n/locale";
 import { SKILLS } from "../data";
+import { SKILLS_EN } from "../data.en";
 
 function SkillPill({ label }: { label: string }) {
   return (
@@ -27,19 +30,23 @@ function SkillPill({ label }: { label: string }) {
 }
 
 export default function TabSkills() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname);
+  const skills = locale === "en" ? SKILLS_EN : SKILLS;
+
   return (
     <div
       className="grid grid-cols-1 sm:grid-cols-2 gap-px"
       style={{ background: "var(--border)" }}
     >
-      {SKILLS.map((group, i) => (
+      {skills.map((group, i) => (
         <motion.section
           key={group.cat}
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.07, duration: 0.5 }}
           className={`p-6 flex flex-col gap-3${
-            i === SKILLS.length - 1 && SKILLS.length % 2 !== 0
+            i === skills.length - 1 && skills.length % 2 !== 0
               ? " sm:col-span-2"
               : ""
           }`}
