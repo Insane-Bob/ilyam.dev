@@ -16,8 +16,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ilyam DUPUIS - Portfolio",
-  description: "Ilyam DUPUIS software engineer portfolio",
+  title: {
+    default: "Portfolio — Ilyam Dupuis",
+    template: "%s | Ilyam Dupuis",
+  },
+  description:
+    "Portfolio de Ilyam Dupuis, développeur fullstack orienté produit : expériences, formations, projets et CV.",
 };
 
 export default function RootLayout({
@@ -27,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">

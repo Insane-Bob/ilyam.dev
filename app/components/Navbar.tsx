@@ -77,20 +77,22 @@ export default function Navbar() {
       </header>
 
       {/* Mobile: floating burger */}
-      <div className="md:hidden fixed top-4 right-4 z-50">
-        <button
-          onClick={() => setOpen(!open)}
-          className="w-12 h-12 flex items-center justify-center transition-colors"
-          style={{
-            border: "1px solid var(--border-mid)",
-            background: "var(--bg)",
-            color: "var(--fg)",
-          }}
-          aria-label="Toggle menu"
-        >
-          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
+      {!open && (
+        <div className="md:hidden fixed top-10 right-4 z-50">
+          <button
+            onClick={() => setOpen(true)}
+            className="w-12 h-12 flex items-center justify-center transition-colors"
+            style={{
+              border: "1px solid var(--border-mid)",
+              background: "var(--bg)",
+              color: "var(--fg)",
+            }}
+            aria-label="Toggle menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+      )}
 
       {/* Mobile: fullscreen menu */}
       <AnimatePresence>
@@ -106,7 +108,7 @@ export default function Navbar() {
               borderLeft: "2px solid var(--accent)",
             }}
           >
-            {/* Logo + theme toggle top */}
+            {/* Logo + controls top */}
             <div className="absolute top-8 left-10 right-10 flex items-center justify-between">
               <Link
                 href="/"
@@ -116,21 +118,36 @@ export default function Navbar() {
               >
                 ID.DEV
               </Link>
-              <button
-                onClick={toggle}
-                className="w-8 h-8 flex items-center justify-center border transition-colors"
-                style={{
-                  borderColor: "var(--border-mid)",
-                  color: "var(--fg-muted)",
-                }}
-                aria-label="Toggle theme"
-              >
-                {theme === "dark" ? (
-                  <Sun className="w-3.5 h-3.5" />
-                ) : (
-                  <Moon className="w-3.5 h-3.5" />
-                )}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={toggle}
+                  className="w-10 h-10 flex items-center justify-center border transition-colors"
+                  style={{
+                    borderColor: "var(--accent)",
+                    color: "var(--accent)",
+                    background: "var(--card-bg)",
+                  }}
+                  aria-label="Toggle theme"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="w-4 h-4" />
+                  ) : (
+                    <Moon className="w-4 h-4" />
+                  )}
+                </button>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="w-10 h-10 flex items-center justify-center border transition-colors"
+                  style={{
+                    borderColor: "var(--border-mid)",
+                    color: "var(--fg)",
+                    background: "var(--card-bg)",
+                  }}
+                  aria-label="Close menu"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             <nav className="flex flex-col gap-6">

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 export default function CustomCursor() {
   const [hovering, setHovering] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [enabled, setEnabled] = useState(false);
 
   const rawX = useMotionValue(-100);
   const rawY = useMotionValue(-100);
@@ -20,6 +21,19 @@ export default function CustomCursor() {
 
   useEffect(() => {
     setMounted(true);
+
+    const mediaQuery = window.matchMedia(
+      "(hover: hover) and (pointer: fine) and (min-width: 768px)",
+    );
+    const syncEnabled = () => setEnabled(mediaQuery.matches);
+    syncEnabled();
+
+    mediaQuery.addEventListener("change", syncEnabled);
+
+    if (!mediaQuery.matches) {
+      return () => mediaQuery.removeEventListener("change", syncEnabled);
+    }
+
     const move = (e: MouseEvent) => {
       rawX.set(e.clientX);
       rawY.set(e.clientY);
@@ -38,13 +52,14 @@ export default function CustomCursor() {
     window.addEventListener("mouseover", onEnter);
     window.addEventListener("mouseout", onLeave);
     return () => {
+      mediaQuery.removeEventListener("change", syncEnabled);
       window.removeEventListener("mousemove", move);
       window.removeEventListener("mouseover", onEnter);
       window.removeEventListener("mouseout", onLeave);
     };
   }, [rawX, rawY]);
 
-  if (!mounted) return null;
+  if (!mounted || !enabled) return null;
 
   return (
     <>

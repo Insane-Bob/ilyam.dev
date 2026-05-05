@@ -168,6 +168,30 @@ export default function CvSidebar() {
             </span>
           ))}
         </motion.div>
+
+        {/* Target roles */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.75 }}
+          className="flex flex-wrap gap-2"
+        >
+          <p className="w-full font-mono text-xs tracking-widest uppercase" style={{ color: "var(--fg-subtle)" }}>
+            Objectifs
+          </p>
+          {PERSONAL.targetRoles.map((tag) => (
+            <span
+              key={tag}
+              className="font-mono text-xs tracking-widest uppercase px-2 py-1 border"
+              style={{
+                borderColor: "var(--accent)",
+                color: "var(--accent)",
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+        </motion.div>
       </div>
     </aside>
   );

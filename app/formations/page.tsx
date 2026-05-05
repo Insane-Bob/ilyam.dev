@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import Footer from "../components/Footer";
 
 type Project = { name: string; period: string; desc: string; stack: string[] };
 type Formation = {
@@ -140,8 +142,6 @@ const FORMATIONS: Formation[] = [
       "Philosophie",
       "Langue Étrangère & Européenne (Anglais)",
       "Histoire-Géographie",
-      "Arts plastiques",
-      "Sciences humaines & sociales",
     ],
     highlights: [
       {
@@ -217,6 +217,29 @@ export default function FormationsPage() {
           l'alternance et des projets réels — des fondamentaux aux architectures
           avancées.
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.75, duration: 0.45 }}
+          className="mt-8"
+        >
+          <Link
+            href="/cv"
+            className="inline-flex items-center gap-2 px-6 py-3 font-mono text-xs tracking-widest uppercase font-semibold border transition-all duration-200"
+            style={{ borderColor: "var(--accent)", color: "var(--accent)" }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "var(--accent)";
+              e.currentTarget.style.color = "var(--bg)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = "var(--accent)";
+            }}
+          >
+            Voir le CV complet →
+          </Link>
+        </motion.div>
       </section>
 
       {/* ── TIMELINE ───────────────────────────────────────── */}
@@ -469,30 +492,7 @@ export default function FormationsPage() {
       </section>
 
       {/* ── FOOTER STRIP ───────────────────────────────────── */}
-      <div
-        className="px-8 md:px-16 py-8 border-t flex items-center justify-between"
-        style={{ borderColor: "var(--border)" }}
-      >
-        <span
-          className="font-mono text-xs tracking-widest uppercase"
-          style={{ color: "var(--fg-subtle)" }}
-        >
-          3 diplômes — 2020 → 2025
-        </span>
-        <a
-          href="/cv"
-          className="font-mono text-xs tracking-widest uppercase transition-colors duration-200"
-          style={{ color: "var(--fg-subtle)" }}
-          onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLElement).style.color = "var(--accent)")
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLElement).style.color = "var(--fg-subtle)")
-          }
-        >
-          Voir le CV complet →
-        </a>
-      </div>
+      <Footer />
     </div>
   );
 }

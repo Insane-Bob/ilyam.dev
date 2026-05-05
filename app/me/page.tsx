@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Footer from "../components/Footer";
 
 const traitCategories = [
   {
@@ -85,28 +86,39 @@ export default function MePage() {
           [01] — Présentation
         </motion.p>
 
-        {/* Big name */}
-        <div className="overflow-hidden mb-2">
-          <motion.h1
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="reflect-glow text-[14vw] md:text-[11vw] font-black leading-none tracking-tighter uppercase text-[var(--fg)]"
-            data-text="Ilyam"
-          >
-            Ilyam
-          </motion.h1>
-        </div>
-        <div className="overflow-hidden mb-10">
-          <motion.h2
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.8, delay: 0.07, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[14vw] md:text-[11vw] font-black leading-none tracking-tighter uppercase"
-            style={{ WebkitTextStroke: "2px #2a2a2a", color: "transparent" }}
-          >
-            Dupuis
-          </motion.h2>
+        <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="min-w-0">
+            {/* Big name */}
+            <div className="overflow-hidden mb-2">
+              <motion.h1
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="reflect-glow text-[14vw] md:text-[11vw] font-black leading-none tracking-tighter uppercase text-[var(--fg)]"
+                data-text="Ilyam"
+              >
+                Ilyam
+              </motion.h1>
+            </div>
+            <div className="overflow-hidden">
+              <motion.h2
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.07,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="text-[14vw] md:text-[11vw] font-black leading-none tracking-tighter uppercase"
+                style={{
+                  WebkitTextStroke: "2px #2a2a2a",
+                  color: "transparent",
+                }}
+              >
+                Dupuis
+              </motion.h2>
+            </div>
+          </div>
         </div>
 
         {/* Role tags */}
@@ -116,20 +128,18 @@ export default function MePage() {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="flex flex-wrap gap-3"
         >
-          {["Développeur Fullstack", "Chef de Projet", "Open to Work"].map(
-            (tag, i) => (
-              <span
-                key={i}
-                className={`font-mono text-[10px] tracking-widest uppercase px-3 py-1.5 border ${
-                  i === 2
-                    ? "border-accent text-[var(--accent)]"
-                    : "border-[var(--border-mid)] text-[var(--fg-muted)]"
-                }`}
-              >
-                {tag}
-              </span>
-            ),
-          )}
+          {["Développeur Fullstack", "Open to Work"].map((tag, i) => (
+            <span
+              key={i}
+              className={`font-mono text-[10px] tracking-widest uppercase px-3 py-1.5 border ${
+                i === 1
+                  ? "border-accent text-[var(--accent)]"
+                  : "border-[var(--border-mid)] text-[var(--fg-muted)]"
+              }`}
+            >
+              {tag}
+            </span>
+          ))}
         </motion.div>
       </section>
 
@@ -276,17 +286,7 @@ export default function MePage() {
       </section>
 
       {/* ── FOOTER STRIP ─────────────────────────────────── */}
-      <footer className="px-8 md:px-16 py-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <span className="font-mono text-[10px] text-[#333] tracking-widest uppercase">
-          Ilyam Dupuis — Développeur Fullstack
-        </span>
-        <a
-          href="/"
-          className="font-mono text-[10px] tracking-widest uppercase text-[var(--fg-subtle)] hover:text-[var(--accent)] transition-colors"
-        >
-          ← Retour accueil
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 }

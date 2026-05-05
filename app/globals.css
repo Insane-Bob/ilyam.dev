@@ -81,14 +81,23 @@ body {
   color: var(--fg);
   font-family: var(--font-geist-sans), Arial, sans-serif;
   overflow-x: hidden;
-  cursor: none;
+  cursor: auto;
 }
 
 /* Hide default cursor on interactive elements too */
 a,
 button,
 [role="button"] {
-  cursor: none;
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 768px) {
+  body,
+  a,
+  button,
+  [role="button"] {
+    cursor: none;
+  }
 }
 
 /* Noise grain overlay */
@@ -174,6 +183,7 @@ body::before {
   content: attr(data-text);
   position: absolute;
   inset: 0;
+  z-index: 1;
   pointer-events: none;
   color: transparent;
   -webkit-text-fill-color: transparent;
@@ -183,16 +193,69 @@ body::before {
   background-position: 140% 0;
   -webkit-background-clip: text;
   background-clip: text;
-  mix-blend-mode: var(--title-reflect-blend);
+  mix-blend-mode: normal;
   opacity: var(--title-reflect-opacity);
   filter: drop-shadow(var(--title-reflect-glow));
+  will-change: background-position;
   animation: title-reflect 2.6s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reflect-glow::after {
     animation: none;
+    opacity: 0.65;
+  }
+}
+
+@keyframes project-enter {
+  from {
     opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-enter {
+  opacity: 0;
+  animation: project-enter 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    transform: translateX(-130%);
+  }
+  100% {
+    transform: translateX(130%);
+  }
+}
+
+.loading-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(139, 125, 255, 0.18) 50%,
+    transparent 80%
+  );
+  animation: loading-shimmer 1.25s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-enter,
+  .loading-shimmer::after {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }
 

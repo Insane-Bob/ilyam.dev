@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
+import Footer from "../components/Footer";
 import CvHeader from "./components/CvHeader";
 import CvSidebar from "./components/CvSidebar";
 import CvTabs from "./components/CvTabs";
 
-export const metadata = { title: "CV — Ilyam Dupuis" };
+export const metadata: Metadata = {
+  title: "Mon CV Numérique",
+  description:
+    "CV de Ilyam Dupuis : expériences professionnelles, formations, compétences et informations de contact.",
+};
 
 export default function CVPage() {
   return (
@@ -12,6 +18,7 @@ export default function CVPage() {
         <CvSidebar />
         <CvTabs />
       </div>
+      <Footer />
     </div>
   );
 }

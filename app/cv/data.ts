@@ -50,7 +50,8 @@ export const PERSONAL = {
     site: "ilyam.dev",
     github: "github.com/Insane-Bob",
     permis: "Permis B",
-    roles: ["Développeur Fullstack", "Chef de Projet", "CPO"],
+    roles: ["Développeur Fullstack", "Chef de Projet"],
+    targetRoles: ["Lead Dev", "CTO", "CPO"],
 };
 
 /* ── Experiences ────────────────────────────────────────────── */
@@ -66,7 +67,6 @@ export const EXPERIENCES: Experience[] = [
         logo: { type: "img", src: "/logos/mixijob-logo.webp", alt: "Mixijob" },
         stack: ["Vue.js", "Laravel", "Tailwind CSS", "Stripe", "MySQL", "Redis", "SEO", "SCRUM", "Figma"],
         bullets: [
-            "Unique développeur de l'équipe fondatrice (3 personnes) : pilotage du développement produit et des décisions techniques, de l'architecture à la mise en production.",
             "Intégration Stripe (prorata, facturation automatisée, synchronisation) et sécurisation des flux financiers — 20 paiements récurrents mensuels fiabilisés.",
             "Optimisation du cycle offres/candidatures (SmartApply) et création d'une candidathèque de 10 000+ profils anonymisés avec CV IA dynamiques — taux de matching +70%.",
             "Intégrations ATS (France Travail, Eiffage, Sopra Steria) et pilotage data-driven des KPI : +20% de trafic mensuel, +20% d'inscriptions candidats.",
@@ -84,7 +84,6 @@ export const EXPERIENCES: Experience[] = [
         logo: { type: "component" },
         stack: ["Vue.js", "Laravel", "Tailwind CSS", "PostgreSQL", "Docker", "Figma", "SCRUM"],
         bullets: [
-            "Équipe de 5 développeurs — projets sur-mesure et SaaS pour clients immobilier, notariat, santé, social et recrutement.",
             "Conception de fonctionnalités complexes (calculs, suivi de biens, processus administratifs), IA pour descriptions d'offres et alertes géolocalisées déployées pour 15 clients.",
             "Supervision back-end : gestion centralisée des partenaires, biens et travaux, administration multi-rôles, permissions et intégration ATS.",
             "Pilotage Agile SCRUM : code review, suivi des sprints et livraison de 6 projets complets.",
