@@ -243,7 +243,7 @@ export const PROJECTS: Project[] = [
             "Déploiement web rapide",
         ],
         screenshots: [],
-        video: "/projects/map-your-spot/map-your-spot-video.mp4",
+        video: "/projects/map-your-spot/map-your-spot-demo.webm",
         url: "https://mapyourspot.vercel.app",
         stack: ["Vue.js", "MongoDB", "Vercel", "GitHub"],
     },
@@ -503,7 +503,7 @@ export const PROJECTS: Project[] = [
         ],
         stack: ["API Discogs", "Laravel", "Livewire", "SQLite"],
     },
-       {
+    {
         slug: "portfolio",
         name: "Portfolio",
         period: "2026",
